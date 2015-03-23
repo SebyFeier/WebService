@@ -13,35 +13,21 @@
  if (isset($_GET['documentName'])) {
  	$documentName = $_GET['documentName'];
  }
- if (isset($documentName)) {
- $columns = array();
-$sql="SELECT * FROM document WHERE documentName = '".$documentName."'";
-if ($result=mysqli_query($con,$sql))
-{
-	while ($fieldInfo=mysqli_fetch_field($result)) {
-		$columns[] = $fieldInfo->name;
-	}
-	mysqli_free_result($result);
-}
- 	
- }
- //unset($columns['lastModified']);
- //unset($columns['documentName']);
- /*for ($i = 0; $i < count($columns); $i++) {
- 	echo $columns[$i];
- 	if (strpos($columns[$i], '_modif') !== FALSE) {
- 		echo"removed";
- 		unset($columns[$i]);
- 		$i--;
- 	}
- }*/
- //echo count($columns);
- //echo "<br>";
- //for ($i = 0; $i < count($columns); $i++) {
- //	echo $i;
- //	echo $columns[$i];
- //}
- 	$result = mysqli_query($con,"SELECT * FROM document WHERE documentName='$documentName'");
+// if (isset($documentName)) {
+// $columns = array();
+//$sql="SELECT * FROM document, section WHERE document.documentName = '".$documentName."' AND document.documentId = section.documentId";
+//if ($result=mysqli_query($con,$sql))
+//{
+//	while ($fieldInfo=mysqli_fetch_field($result)) {
+//		$columns[] = $fieldInfo->name;
+//	}
+//	mysqli_free_result($result);
+//}
+// 	
+// }
+     $sql = "SELECT * FROM document, section WHERE document.documentName='$documentName' AND document.documentId = section.documentId";
+//     echo $sql;
+ 	$result = mysqli_query($con,$sql);
  while($row = mysqli_fetch_assoc($result)) {
  	//echo $row["lastModified"];
  	$json['documents'][$i]=$row;

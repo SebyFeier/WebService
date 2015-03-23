@@ -30,9 +30,32 @@
                 $i++;
                 $documentId = $row["documentId"];
             }
+            
             $sql = "INSERT INTO editedDocument (documentId) VALUES ('$documentId')";
             $result =mysqli_query($con, $sql);
+//            $xml = "<document>";
+            $xml .= "<sections>";
+            $xml .= "<section>";
+            $xml .= "<name>"."section1"."</name>";
+            $xml .= "<timestamp>"."0"."</timestamp>";
+            $xml .= "<value></value>";
+            $xml .= "</section>";
+//            $xml .= "<section>";
+//            $xml .= "<name>"."section1"."</name>";
+//            $xml .= "<timestamp>"."0"."</timestamp>";
+//            $xml .= "<value>"."a"."</value>";
+//            $xml .= "</section>";
+//            $xml .= "<section>";
+//            $xml .= "<name>"."section1"."</name>";
+//            $xml .= "<timestamp>"."0"."</timestamp>";
+//            $xml .= "<value>"."a"."</value>";
+//            $xml .= "</section>";
+            $xml .= "</sections>";
+//            $xml .="</document>";
+            $sql = "INSERT INTO section (documentId, sectionText) VALUES ('$documentId','".mysql_real_escape_string($xml)."')";
+            $result = mysqli_query($con, $sql);
             
+//            echo $sql;
             //$json = '{"response":"The document has been added successfully","status":"OK"}';
             echo makejson($json);
         }
