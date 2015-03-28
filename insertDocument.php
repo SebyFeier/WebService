@@ -10,6 +10,8 @@
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
     
+    $time  = time();
+    
     if (isset($_GET["documentName"])) {
         $documentName = $_GET["documentName"];
     }
@@ -37,7 +39,7 @@
             $xml .= "<sections>";
             $xml .= "<section>";
             $xml .= "<name>"."section1"."</name>";
-            $xml .= "<timestamp>"."0"."</timestamp>";
+            $xml .= "<timestamp>".$time."</timestamp>";
             $xml .= "<value></value>";
             $xml .= "</section>";
 //            $xml .= "<section>";

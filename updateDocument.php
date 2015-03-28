@@ -10,18 +10,20 @@
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
     
+    $time  = time();
+    
     $documentName = $_GET["documentName"];
     $timeStamp = $_GET["timeStamp"];
     $initialTimeStamp = $_GET["initialTimeStamp"];
     $json = $_GET["json"];
     $type = $_GET["type"];
-//    echo $json;
     
-    $sql = "SELECT documentId FROM document WHERE documentName='".$documentName."'";
-    //    echo $sql;
+    $sql = "SELECT documentId, lastModified FROM document WHERE documentName='".$documentName."'";
     $result = mysqli_query($con, $sql);
     while($row = mysqli_fetch_assoc($result)) {
         $documentId = $row["documentId"];
+//        $documentTimeStamp = $row["lastModified"];
+        $documentTimeStamp = 0;
     }
     $array = json_decode($json, true);
     
@@ -32,7 +34,7 @@
             if ($value == "name") {
                 $xml .= "<name>".$key['text']."</name>";
             } else if ($value == "timestamp") {
-                $xml .= "<timestamp>".$key['text']."</timestamp>";
+                $xml .= "<timestamp>".$time."</timestamp>";
             } else if ($value == "value") {
                 $xml .= "<value>".$key['text']."</value>";
             }
@@ -41,29 +43,38 @@
         $xml .= "</sections>";
     } else if ($type == "array") {
         $xml .= "<sections>";
-//        var_dump($array);
         for ($i = 0; $i < count($array); $i++) {
-//            echo "a";
             $xml .= "<section>";
             $section = $array[$i];
             foreach ($section as $value => $key) {
                 if ($value == "name") {
                     $xml .= "<name>".$key['text']."</name>";
                 } else if ($value == "timestamp") {
-                    $xml .= "<timestamp>".$key['text']."</timestamp>";
+                    $xml .= "<timestamp>".$time."</timestamp>";
                 } else if ($value == "value") {
                     $xml .= "<value>".$key['text']."</value>";
                 }
             }
             $xml .= "</section>";
-//            foreach ($)
         }
         $xml .= "</sections>";
     }
-//    echo $xml;
-    $sql = "UPDATE section SET sectionText = '".mysql_real_escape_string($xml)."' WHERE documentId='".$documentId."'";
-//    echo $sql;
-    $result = mysqli_query($con, $sql);
+    if ($initialTimeStamp == $documentTimeStamp) {//check if document was already updated from different device
+        $sql = "UPDATE section SET sectionText = '".mysql_real_escape_string($xml)."' WHERE documentId='".$documentId."'";
+        $result = mysqli_query($con, $sql);
+        $json = '{"response":"The document has been modified successfully","status":"OK"}';
+        echo $json;
+    } else {
+        $sql = "SELECT * FROM document, section WHERE document.documentName='$documentName' AND document.documentId = section.documentId";
+        $result = mysqli_query($con, $sql);
+        while($row = mysqli_fetch_assoc($result)) {
+            $existingSection = $row["sectionText"];
+        }
+        $conflictedSection = array();
+        $conflictedSection["existing"] = $existingSection;
+        $conflictedSection["new"] = $xml;
+        echo Makejson($conflictedSection);
+    }
     function DecodeJson($json) {
         return json_decode($json);
     }
