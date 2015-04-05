@@ -25,6 +25,8 @@
         $documentTimeStamp = 0;
         $documentTimeStamp = $row["lastModified"];
     }
+//    echo $initialTimeStamp;
+//    echo $documentTimeStamp;
     $array = json_decode($json, true);
     if ($type == "dictionary") {
         $xml .= "<sections>";
@@ -64,17 +66,14 @@
             }
         }
         if (count($serverXml) > count($appNames)) {
-            echo "SERVER";
             $notFoundNames = array();
             $notFoundTimestamps = array();
             $notFoundValues = array();
             $foundNames = array();
             for ($server = 0; $server < count($serverXml);$server++) {
-                echo "SERVER : ".$serverXml->section[$server]->name;
                 $sectionFound = FALSE;
                 for ($app = 0; $app < count($appNames); $app++) {
                     if ($appNames[$app] == $serverXml->section[$server]->name && in_array($appNames[$app], $notFoundNames) == NULL) {
-                        echo "SAME :".$appNames[$app];
                         $foundNames[] = $appNames[$app];
                         $xml .= "<section>";
                         $xml .= "<name>".$appNames[$app]."</name>";
@@ -85,7 +84,6 @@
                         break;
                     } else {
                         if (in_array($appNames[$app], $notFoundNames) == NULL) {
-                            echo "ADD : ".$appNames[$app];
                             $notFoundNames[] = $appNames[$app];
                             $notFoundTimestamps[] = $appTimestamps[$app];
                             $notFoundValues[] = $appValues[$app];
@@ -95,7 +93,6 @@
                 }
                 if ($sectionFound == FALSE) {
                     if (in_array($serverXml->section[$server]->name, $notFoundNames) == NULL) {
-                        echo "NOT : ".$serverXml->section[$server]->name;
                         $notFoundNames[] = $serverXml->section[$server]->name;
                         $notFoundTimestamps[] = $serverXml->section[$server]->timestamp;
                         $notFoundValues[] = $serverXml->section[$server]->value;
@@ -103,9 +100,7 @@
                     }
                 }
             }
-            echo "COUNT : ".count($notFoundNames);
             for ($i = 0; $i < count($notFoundNames); $i++) {
-                echo $notFoundNames[$i];
                 if (in_array($notFoundNames[$i],$foundNames) == NULL) {
                     $xml .= "<section>";
                     $xml .= "<name>".$notFoundNames[$i]."</name>";
@@ -115,19 +110,16 @@
                 }
             }
         } else if (count($serverXml) < count($appNames)) {
-            echo "APP";
             $notFoundNames = array();
             $notFoundTimestamps = array();
             $notFoundValues = array();
             $foundNames = array();
 //            for ($server = 0; $server < count($serverXml);$server++) {
             for ($app = 0; $app < count($appNames); $app++) {
-                echo "SERVER : ".$appNames[$app];
                 $sectionFound = FALSE;
 //                for ($app = 0; $app < count($appNames); $app++) {
                 for ($server = 0; $server < count($serverXml); $server++) {
                     if ($appNames[$app] == $serverXml->section[$server]->name && in_array($serverXml->section[$server]->name, $notFoundNames) == NULL) {
-                        echo "SAME :".$serverXml->section[$server]->name;
                         $foundNames[] = $appNames[$app];
                         $xml .= "<section>";
                         $xml .= "<name>".$appNames[$app]."</name>";
@@ -138,7 +130,6 @@
                         break;
                     } else {
                         if (in_array($serverXml->section[$server]->name, $notFoundNames) == NULL) {
-                            echo "ADD : ".$serverXml->section[$server]->name;
                             $notFoundNames[] = $serverXml->section[$server]->name;
                             $notFoundTimestamps[] = $serverXml->section[$server]->timestamp;
                             $notFoundValues[] = $serverXml->section[$server]->value;
@@ -148,7 +139,6 @@
                 }
                 if ($sectionFound == FALSE) {
                     if (in_array($appNames[$app], $notFoundNames) == NULL) {
-                        echo "NOT : ".$appNames[$app];
                         $notFoundNames[] = $appNames[$app];
                         $notFoundTimestamps[] = $appTimestamps[$app];
                         $notFoundValues[] = $appValues[$app];
@@ -156,9 +146,7 @@
                     }
                 }
             }
-            echo "COUNT : ".count($notFoundNames);
             for ($i = 0; $i < count($notFoundNames); $i++) {
-                echo $notFoundNames[$i];
                 if (in_array($notFoundNames[$i],$foundNames) == NULL) {
                     $xml .= "<section>";
                     $xml .= "<name>".$notFoundNames[$i]."</name>";
@@ -168,17 +156,14 @@
                 }
             }
         } else if (count($serverXml) == count($appNames)) {
-            echo "EQUAL";
             $notFoundNames = array();
             $notFoundTimestamps = array();
             $notFoundValues = array();
             $foundNames = array();
             for ($server = 0; $server < count($serverXml);$server++) {
-                echo "SERVER : ".$serverXml->section[$server]->name;
                 $sectionFound = FALSE;
                 for ($app = 0; $app < count($appNames); $app++) {
                     if ($appNames[$app] == $serverXml->section[$server]->name && in_array($appNames[$app], $notFoundNames) == NULL) {
-                        echo "SAME :".$appNames[$app];
                         $foundNames[] = $appNames[$app];
                         $xml .= "<section>";
                         $xml .= "<name>".$appNames[$app]."</name>";
@@ -189,7 +174,6 @@
                         break;
                     } else {
                         if (in_array($appNames[$app], $notFoundNames) == NULL) {
-                            echo "ADD : ".$appNames[$app];
                             $notFoundNames[] = $appNames[$app];
                             $notFoundTimestamps[] = $appTimestamps[$app];
                             $notFoundValues[] = $appValues[$app];
@@ -199,7 +183,6 @@
                 }
                 if ($sectionFound == FALSE) {
                     if (in_array($serverXml->section[$server]->name, $notFoundNames) == NULL) {
-                        echo "NOT : ".$serverXml->section[$server]->name;
                         $notFoundNames[] = $serverXml->section[$server]->name;
                         $notFoundTimestamps[] = $serverXml->section[$server]->timestamp;
                         $notFoundValues[] = $serverXml->section[$server]->value;
@@ -207,9 +190,7 @@
                     }
                 }
             }
-            echo "COUNT : ".count($notFoundNames);
             for ($i = 0; $i < count($notFoundNames); $i++) {
-                echo $notFoundNames[$i];
                 if (in_array($notFoundNames[$i],$foundNames) == NULL) {
                     $xml .= "<section>";
                     $xml .= "<name>".$notFoundNames[$i]."</name>";
@@ -220,8 +201,9 @@
             }
         }
         $xml .= "</sections>";
-        echo $xml;
     }
+//    echo $initialTimeStamp;
+//    echo $documentTimeStamp;
     if ($initialTimeStamp == $documentTimeStamp) {//check if document was already updated from different device
         $sql = "UPDATE section SET sectionText = '".mysql_real_escape_string($xml)."' WHERE documentId='".$documentId."'";
         $result = mysqli_query($con, $sql);
@@ -236,6 +218,7 @@
         $conflictedSection = array();
         $conflictedSection["existing"] = $existingSection;
         $conflictedSection["new"] = $xml;
+        $conflictedSection["modifiedSections"] = $appNames;
         echo Makejson($conflictedSection);
     }
     function DecodeJson($json) {

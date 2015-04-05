@@ -38,7 +38,7 @@
 //            $xml = "<document>";
             $xml .= "<sections>";
             $xml .= "<section>";
-            $xml .= "<name>"."section1"."</name>";
+            $xml .= "<name>"."1"."</name>";
             $xml .= "<timestamp>".$time."</timestamp>";
             $xml .= "<value></value>";
             $xml .= "</section>";
