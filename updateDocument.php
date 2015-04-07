@@ -31,8 +31,10 @@
     if ($type == "dictionary") {
         $xml .= "<sections>";
         $xml .= "<section>";
+        $appNames = array();
         foreach ($array as $value => $key) {
             if ($value == "name") {
+                $appNames[] = $key['text'];
                 $xml .= "<name>".$key['text']."</name>";
             } else if ($value == "timestamp") {
                 $xml .= "<timestamp>".$time."</timestamp>";
@@ -205,6 +207,10 @@
 //    echo $initialTimeStamp;
 //    echo $documentTimeStamp;
     if ($initialTimeStamp == $documentTimeStamp) {//check if document was already updated from different device
+        
+        $sql = "UPDATE document SET lastModified='".$timeStamp."' WHERE documentName='".$documentName."'";
+        $result = mysqli_query($con, $sql) or die ("Error".mysql_error());
+        
         $sql = "UPDATE section SET sectionText = '".mysql_real_escape_string($xml)."' WHERE documentId='".$documentId."'";
         $result = mysqli_query($con, $sql);
         $json = '{"response":"The document has been modified successfully","status":"OK"}';
