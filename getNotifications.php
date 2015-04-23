@@ -16,7 +16,6 @@
     if (isset($_GET['userId'])) {
         $userId = $_GET['userId'];
     $sql = "SELECT documentId FROM updatedDocuments WHERE userId=$userId";
-//        echo $sql;
         $result = mysqli_query($con,$sql);
         $documentIds = array();
         while ($row = mysqli_fetch_assoc($result)) {
