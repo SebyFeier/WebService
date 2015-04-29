@@ -17,6 +17,7 @@
     $initialTimeStamp = $_GET["initialTimeStamp"];
     $json = $_GET["json"];
     $type = $_GET["type"];
+    $modifiedBy = $_GET["modifiedBy"];
     
     $sql = "SELECT documentId, lastModified FROM document WHERE documentName='".$documentName."'";
     $result = mysqli_query($con, $sql);
@@ -40,6 +41,8 @@
                 $xml .= "<timestamp>".$time."</timestamp>";
             } else if ($value == "value") {
                 $xml .= "<value>".$key['text']."</value>";
+            } else if ($value == "modifiedBy") {
+                $xml .= "<modifiedBy>".$key['text']."</modifiedBy>";
             }
         }
         $xml .= "</section>";
@@ -55,6 +58,7 @@
         $appNames = array();
         $appTimestamps = array();
         $appValues = array();
+        $modifiedBys = array();
         for ($i = 0; $i < count($array); $i++) {
             $section = $array[$i];
             foreach ($section as $value => $key) {
@@ -64,6 +68,8 @@
                     $appTimestamps[] = $key['text'];
                 } else if ($value == "value") {
                     $appValues[] = $key['text'];
+                } else if ($value == "modifiedBy") {
+                    $modifiedBys[] = $key['text'];
                 }
             }
         }
@@ -71,6 +77,7 @@
             $notFoundNames = array();
             $notFoundTimestamps = array();
             $notFoundValues = array();
+            $notFoundModifiedBys = array();
             $foundNames = array();
             for ($server = 0; $server < count($serverXml);$server++) {
                 $sectionFound = FALSE;
@@ -80,6 +87,7 @@
                         $xml .= "<section>";
                         $xml .= "<name>".$appNames[$app]."</name>";
                         $xml .= "<timestamp>".$appTimestamps[$app]."</timestamp>";
+                        $xml .= "<modifiedBy>".$modifiedBys[$app]."</modifiedBy>";
                         $xml .= "<value>".$appValues[$app]."</value>";
                         $xml .= "</section>";
                         $sectionFound = TRUE;
@@ -89,7 +97,7 @@
                             $notFoundNames[] = $appNames[$app];
                             $notFoundTimestamps[] = $appTimestamps[$app];
                             $notFoundValues[] = $appValues[$app];
-                            
+                            $notFoundModifiedBys[] = $modifiedBys[$app];
                         }
                     }
                 }
@@ -98,6 +106,7 @@
                         $notFoundNames[] = $serverXml->section[$server]->name;
                         $notFoundTimestamps[] = $serverXml->section[$server]->timestamp;
                         $notFoundValues[] = $serverXml->section[$server]->value;
+                        $notFoundModifiedBys[] = $serverXml->section[$server]->modifiedBy;
                         
                     }
                 }
@@ -107,6 +116,7 @@
                     $xml .= "<section>";
                     $xml .= "<name>".$notFoundNames[$i]."</name>";
                     $xml .= "<timestamp>".$notFoundTimestamps[$i]."</timestamp>";
+                    $xml .= "<modifiedBy>".$notFoundModifiedBys[$i]."</modifiedBy>";
                     $xml .= "<value>".$notFoundValues[$i]."</value>";
                     $xml .= "</section>";
                 }
@@ -115,6 +125,7 @@
             $notFoundNames = array();
             $notFoundTimestamps = array();
             $notFoundValues = array();
+            $notFoundModifiedBys = array();
             $foundNames = array();
 //            for ($server = 0; $server < count($serverXml);$server++) {
             for ($app = 0; $app < count($appNames); $app++) {
@@ -126,6 +137,7 @@
                         $xml .= "<section>";
                         $xml .= "<name>".$appNames[$app]."</name>";
                         $xml .= "<timestamp>".$appTimestamps[$app]."</timestamp>";
+                        $xml .= "<modifiedBy>".$modifiedBys[$app]."</modifiedBy>";
                         $xml .= "<value>".$appValues[$app]."</value>";
                         $xml .= "</section>";
                         $sectionFound = TRUE;
@@ -135,7 +147,7 @@
                             $notFoundNames[] = $serverXml->section[$server]->name;
                             $notFoundTimestamps[] = $serverXml->section[$server]->timestamp;
                             $notFoundValues[] = $serverXml->section[$server]->value;
-                            
+                            $notFoundModifiedBys[] = $serverXml->section[$server]->modifiedBy;
                         }
                     }
                 }
@@ -144,6 +156,7 @@
                         $notFoundNames[] = $appNames[$app];
                         $notFoundTimestamps[] = $appTimestamps[$app];
                         $notFoundValues[] = $appValues[$app];
+                        $notFoundModifiedBys[] = $modifiedBys[$app];
                         
                     }
                 }
@@ -153,6 +166,7 @@
                     $xml .= "<section>";
                     $xml .= "<name>".$notFoundNames[$i]."</name>";
                     $xml .= "<timestamp>".$notFoundTimestamps[$i]."</timestamp>";
+                    $xml .= "<modifiedBy>".$notFoundModifiedBys[$i]."</modifiedBy>";
                     $xml .= "<value>".$notFoundValues[$i]."</value>";
                     $xml .= "</section>";
                 }
@@ -161,6 +175,7 @@
             $notFoundNames = array();
             $notFoundTimestamps = array();
             $notFoundValues = array();
+            $notFoundModifiedBys = array();
             $foundNames = array();
             for ($server = 0; $server < count($serverXml);$server++) {
                 $sectionFound = FALSE;
@@ -170,6 +185,7 @@
                         $xml .= "<section>";
                         $xml .= "<name>".$appNames[$app]."</name>";
                         $xml .= "<timestamp>".$appTimestamps[$app]."</timestamp>";
+                        $xml .= "<modifiedBy>".$modifiedBys[$app]."</modifiedBy>";
                         $xml .= "<value>".$appValues[$app]."</value>";
                         $xml .= "</section>";
                         $sectionFound = TRUE;
@@ -179,6 +195,7 @@
                             $notFoundNames[] = $appNames[$app];
                             $notFoundTimestamps[] = $appTimestamps[$app];
                             $notFoundValues[] = $appValues[$app];
+                            $notFoundModifiedBys[] = $modifiedBys[$app];
                     
                         }
                     }
@@ -188,6 +205,7 @@
                         $notFoundNames[] = $serverXml->section[$server]->name;
                         $notFoundTimestamps[] = $serverXml->section[$server]->timestamp;
                         $notFoundValues[] = $serverXml->section[$server]->value;
+                        $notFoundModifiedBys[] = $serverXml->section[$server]->modifiedBy;
                         
                     }
                 }
@@ -197,6 +215,7 @@
                     $xml .= "<section>";
                     $xml .= "<name>".$notFoundNames[$i]."</name>";
                     $xml .= "<timestamp>".$notFoundTimestamps[$i]."</timestamp>";
+                    $xml .= "<modifiedBy>".$notFoundModifiedBys[$i]."</modifiedBy>";
                     $xml .= "<value>".$notFoundValues[$i]."</value>";
                     $xml .= "</section>";
                 }

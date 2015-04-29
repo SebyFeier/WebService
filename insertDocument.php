@@ -40,6 +40,7 @@
             $xml .= "<section>";
             $xml .= "<name>"."1"."</name>";
             $xml .= "<timestamp>".$time."</timestamp>";
+            $xml .= "<modifiedBy>".$createdBy."</modifiedBy>";
             $xml .= "<value></value>";
             $xml .= "</section>";
 //            $xml .= "<section>";
