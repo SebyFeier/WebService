@@ -18,6 +18,12 @@
     $json = $_GET["json"];
     $type = $_GET["type"];
     $modifiedBy = $_GET["modifiedBy"];
+    $usernames = array();
+    $sql = "SELECT username FROM user WHERE username != '$modifiedBy'";
+    $result = mysqli_query($con, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $usernames[] = $row["username"];
+    }
     
     $sql = "SELECT documentId, lastModified FROM document WHERE documentName='".$documentName."'";
     $result = mysqli_query($con, $sql);
@@ -232,6 +238,14 @@
         
         $sql = "UPDATE section SET sectionText = '".mysql_real_escape_string($xml)."' WHERE documentId='".$documentId."'";
         $result = mysqli_query($con, $sql);
+        for ($position = 0; $position < count($appNames); $position++) {
+            for ($usernamePosition = 0; $usernamePosition < count($usernames); $usernamePosition++) {
+                $sql = "INSERT INTO alert (documentId, modifiedBy, sectionId, user) VALUES ($documentId, '$modifiedBy', $appNames[$position], '$usernames[$usernamePosition]')";
+                //            echo $sql;
+//                echo $sql;
+                $result = mysqli_query($con, $sql);
+            }
+        }
         $json = '{"response":"The document has been modified successfully","status":"OK"}';
         echo $json;
     } else {
