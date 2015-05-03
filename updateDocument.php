@@ -32,8 +32,6 @@
         $documentTimeStamp = 0;
         $documentTimeStamp = $row["lastModified"];
     }
-//    echo $initialTimeStamp;
-//    echo $documentTimeStamp;
     $array = json_decode($json, true);
     if ($type == "dictionary") {
         $xml .= "<sections>";
@@ -133,10 +131,8 @@
             $notFoundValues = array();
             $notFoundModifiedBys = array();
             $foundNames = array();
-//            for ($server = 0; $server < count($serverXml);$server++) {
             for ($app = 0; $app < count($appNames); $app++) {
                 $sectionFound = FALSE;
-//                for ($app = 0; $app < count($appNames); $app++) {
                 for ($server = 0; $server < count($serverXml); $server++) {
                     if ($appNames[$app] == $serverXml->section[$server]->name && in_array($serverXml->section[$server]->name, $notFoundNames) == NULL) {
                         $foundNames[] = $appNames[$app];
@@ -229,8 +225,6 @@
         }
         $xml .= "</sections>";
     }
-//    echo $initialTimeStamp;
-//    echo $documentTimeStamp;
     if ($initialTimeStamp == $documentTimeStamp) {//check if document was already updated from different device
         
         $sql = "UPDATE document SET lastModified='".$timeStamp."' WHERE documentName='".$documentName."'";
@@ -241,8 +235,6 @@
         for ($position = 0; $position < count($appNames); $position++) {
             for ($usernamePosition = 0; $usernamePosition < count($usernames); $usernamePosition++) {
                 $sql = "INSERT INTO alert (documentId, modifiedBy, sectionId, user) VALUES ($documentId, '$modifiedBy', $appNames[$position], '$usernames[$usernamePosition]')";
-                //            echo $sql;
-//                echo $sql;
                 $result = mysqli_query($con, $sql);
             }
         }
