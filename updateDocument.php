@@ -3,7 +3,6 @@
     $json['documents'][] = array(1);
     $file = "file.txt";
     $i=0;
-    //$con=mysqli_connect("sql313.byetcluster.com","mzzho_14755235","n3wMexico","mzzho_14755235_licenta");
     $con=mysqli_connect("localhost","root","123456","Licenta");
     
     if (mysqli_connect_errno()) {
@@ -198,7 +197,7 @@
                             $notFoundTimestamps[] = $appTimestamps[$app];
                             $notFoundValues[] = $appValues[$app];
                             $notFoundModifiedBys[] = $modifiedBys[$app];
-                    
+                            
                         }
                     }
                 }

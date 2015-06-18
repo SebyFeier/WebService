@@ -2,7 +2,6 @@
     $json['documents'][] = array(1);
     $file = "file.txt";
     $i=0;
-    //$con=mysqli_connect("sql313.byetcluster.com","mzzho_14755235","n3wMexico","mzzho_14755235_licenta");
     $con=mysqli_connect("localhost","root","123456","Licenta");
     
     if (mysqli_connect_errno()) {
@@ -50,9 +49,9 @@
     } else {
         $newXml .= "<sections>";
         for ($i = 0; $i < count($xml); $i++) {
-//            echo $xml->section[$i]->name;
-//            echo $xml->section[$i]->timestamp;
-//            echo $xml->section[$i]->value;
+            //            echo $xml->section[$i]->name;
+            //            echo $xml->section[$i]->timestamp;
+            //            echo $xml->section[$i]->value;
             $newXml .= "<section>";
             $newXml .= "<name>".$xml->section[$i]->name."</name>";
             $newXml .= "<timestamp>".$xml->section[$i]->timestamp."</timestamp>";
@@ -68,10 +67,10 @@
             //                echo $xml->section[$i]->value;
         }
         $newXml .= "</sections>";
-//        echo $newXml;
+        //        echo $newXml;
     }
     $sql = "UPDATE section SET sectionText = '".mysql_real_escape_string($newXml)."' WHERE documentId='".$documentId."'";
-//    echo $sql;
+    //    echo $sql;
     $result = mysqli_query($con, $sql);
     if ($result) {
         $json = '{"response":"The document has been modified successfully","status":"OK"}';

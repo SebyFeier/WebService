@@ -5,7 +5,6 @@
     $file = "file.txt";
     $i=0;
     
-    //$con=mysqli_connect("sql313.byetcluster.com","mzzho_14755235","n3wMexico","mzzho_14755235_licenta");
     $con=mysqli_connect("localhost","root","123456","Licenta");
     if (isset($_GET['username']) && isset($_GET['password'])) {
         $password = $_GET['password'];
@@ -13,7 +12,6 @@
         $deviceUdid = $_GET['deviceUdid'];
         $deviceName = $_GET['deviceName'];
         $order = "INSERT INTO user (username, password, isLoggedIn, loggedInDeviceUdid) VALUES ('".$username."', PASSWORD('".$password."'), TRUE,'".$deviceUdid."')";
-        //    echo $order;
         $result = mysqli_query($con,$order);
         if($result) {
             $sql = "SELECT * FROM user WHERE username='$username' AND password=PASSWORD('$password')";
@@ -37,7 +35,6 @@
                 $result=mysqli_query($con, $sql);
             }
             $sql = "INSERT INTO device(udid, deviceName, userId, isApproved) VALUES ('$deviceUdid', '$deviceName', $userId, TRUE)";
-            //echo $sql;
             $result=mysqli_query($con, $sql);
             
             echo Makejson($json);

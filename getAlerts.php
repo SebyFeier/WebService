@@ -5,7 +5,6 @@
     $file            = "file.txt";
     $i               = 0;
     
-    //$con = mysqli_connect("sql313.byetcluster.com", "mzzho_14755235", "n3wMexico", "mzzho_14755235_licenta");
     $con=mysqli_connect("localhost","root","123456","Licenta");
     
     if (mysqli_connect_errno()) {
@@ -15,7 +14,6 @@
         $userId = $_GET['userId'];
         $documentId = $_GET['documentId'];
         $sql = "SELECT * FROM alert WHERE user = '$userId' AND documentId = $documentId";
-//        echo $sql;
         $result = mysqli_query($con,$sql);
         $documentIds = array();
         while ($row = mysqli_fetch_assoc($result)) {
@@ -27,7 +25,6 @@
         if ($i != 0) {
             for ($position = 0; $position < count($modifiedBys); $position++) {
                 $sql = "DELETE FROM alert WHERE documentId=$documentId AND user='$userId' AND sectionId=$sectionIds[$position]";
-//                echo $sql;
                 $result = mysqli_query($con, $sql);
             }
             echo json_encode($json);
